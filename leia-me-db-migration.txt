@@ -1,0 +1,27 @@
+
+Na tabela "event" vou utilizar a função "gen_random_uuid" que é uma função cujo extensão é do PostgreSQL para poder gerar identificadores únicos
+universais UUIDs de forma aleatória. Vão ser utilizadas UUIDs como chaves primárias em tabelas de banco de dados, em vez de usar IDs numéricos
+sequenciais. Para utilizar essa função foi preciso criar essa extensão: CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+Detalhe: Os nomes dos arquivos .sql são essencias na hora de criar as tabelas para não gerar erro, no caso correto, eu utilizei V1, V2 e V3 para
+exemplificar cada create tabela, se no caso errado, eu nomear os arquivos todos com "V1" dará erro, por exemplo: V1__create-table-event,
+V1__create-table-coupon e V1__create-table-address. Por que isso acontece? Porque a convenção de nomeação dos arquivos de migração SQL é importante
+para que os sistemas de gerenciamento de migrações, como o Flyway ou o Liquibase, possam identificar e aplicar as migrações corretamente.
+
+Caso Errado: V1__create-table-event, V1__create-table-coupon e V1__create-table-address:
+
+    -> Neste caso, todos os arquivos têm o mesmo prefixo "V1", o que indica que eles fazem parte da mesma versão de migração.
+    -> No entanto, o sistema de gerenciamento de migrações não consegue diferenciar a ordem de aplicação dessas migrações, pois elas têm o mesmo prefixo.
+    -> Isso pode causar problemas, pois a ordem de aplicação das migrações é importante para garantir a integridade do banco de dados.
+
+Caso Correto: V1__create-table-event, V2__create-table-coupon e V3__create-table-address:
+
+    -> Neste caso, cada arquivo tem um prefixo diferente (V1, V2 e V3), indicando que eles fazem parte de diferentes versões de migração.
+    -> O sistema de gerenciamento de migrações consegue identificar a ordem correta de aplicação dessas migrações, pois elas têm prefixos diferentes.
+    -> Isso garante que as migrações sejam aplicadas na ordem correta, evitando problemas de integridade do banco de dados.
+
+A convenção de nomeação recomendada é utilizar prefixos numéricos (V1, V2, V3, etc.) para indicar a ordem de aplicação das migrações. Dessa forma, o
+sistema de gerenciamento de migrações consegue identificar corretamente a sequência de aplicação das migrações.
+
+Portanto, no caso correto, a opção (V1__create-table-event, V2__create-table-coupon e V3__create-table-address) é a correta, pois permite que o sistema
+de gerenciamento de migrações aplique as alterações na ordem correta.
